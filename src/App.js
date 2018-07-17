@@ -17,29 +17,34 @@ class App extends Component {
   }
 
   componentDidMount() {
-    axios.get('/api/messages').then(res => {
-      this.setState({ allMessages: res.data });
-    });
+    axios.get("/api/messages")
+      .then(res => {
+        this.setState({
+          allMessages: res.data
+        });
+      })
   }
 
-  saveUsername() {
+  createMessage() {
+    const { username, message } = this.state
+    axios.post("/api/messages", { username, message })
+      .then(res => {
+        this.setState({
+          allMessages: res.data
+        });
+      });
+  }
+
+   saveUsername() {
     if (this.state.username) {
       this.setState({ messageInputDisabled: !this.state.messageInputDisabled });
     }
   }
 
-  createMessage() {
-    let { username, message } = this.state;
-    axios
-      .post('/api/messages', { username: username, message: message })
-      .then(res => {
-        this.setState({ allMessages: res.data, message: '' });
-      });
-  }
-
   showHistoryModal() {
     this.setState({ showHistory: true });
   }
+
   closeHistoryModal() {
     this.setState({ showHistory: false });
   }
@@ -101,6 +106,7 @@ class App extends Component {
       </div>
     );
   }
+
 }
 
 export default App;

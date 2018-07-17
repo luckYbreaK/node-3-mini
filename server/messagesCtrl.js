@@ -4,23 +4,79 @@ module.exports = {
   getAllMessages: (req, res) => {
     res.status(200).send(allMessages);
   },
-  createMessage: (req, res) => {
-    let newMessage = {
-      username: req.body.username,
-      message: req.body.message
-    };
-    allMessages.push(newMessage);
 
-    if (req.session.history) {
-      req.session.history.push(newMessage);
+  createMessage: (req, res) => {
+    const {username, message} = req.body;
+    let messageObj = {
+      username,
+      message
+    }
+    allMessages = [...allMessages, messageObj];
+
+    if(req.session.history) {
+      req.session.history.push(messageObj);
     } else {
       req.session.history = [];
-      req.session.history.push(newMessage);
+      req.session.history.push(messageObj)
     }
 
     res.status(200).send(allMessages);
   },
+
   history: (req, res) => {
     res.status(200).send(req.session.history);
   }
-};
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// let allMessages = [];
+
+// module.exports = {
+//   getAllMessages: (req, res) => {
+//     res.status(200).send(allMessages);
+//   },
+//   createMessage: (req, res) => {
+//     let newMessage = {
+//       username: req.body.username,
+//       message: req.body.message
+//     };
+//     allMessages.push(newMessage);
+
+//     if (req.session.history) {
+//       req.session.history.push(newMessage);
+//     } else {
+//       req.session.history = [];
+//       req.session.history.push(newMessage);
+//     }
+
+//     res.status(200).send(allMessages);
+//   },
+//   history: (req, res) => {
+//     res.status(200).send(req.session.history);
+//   }
+// };
